@@ -1,0 +1,25 @@
+---
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.5-node
+      - image: circleci/postgres:9.6-alpine
+    environment:
+      RAILS_ENV: test
+      RACK_ENV: test
+      NODE_ENV: test
+      PATH: "${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    steps:
+      - checkout
+      - run: npm install
+      - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - run:
+          name: Generate database.yml
+          command: |
+            mkdir -p config
+            cp .circleci/database.yml config/database.yml
+      - run: bundle exec rails db:create --trace
+      - run: bundle exec rake
+      - run: bundle exec rubocop
+
