@@ -15,11 +15,11 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum "Gemfile.lock" }}
-            - v1-bundle-
+            - v2-bundle-{{ checksum "Gemfile.lock" }}
+            - v2-bundle-
       - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
       - save_cache:
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v2-bundle-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       - persist_to_workspace:
