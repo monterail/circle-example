@@ -33,3 +33,25 @@ jobs:
       - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
       - run: bundle exec rubocop
 
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - rubocop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
