@@ -40,6 +40,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - run: bundle config --local path vendor/bundle
       - run: npm install
       - run:
           name: Generate database.yml
@@ -59,6 +60,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - run: bundle config --local path vendor/bundle
       - run: bundle exec rubocop
 
 workflows:
