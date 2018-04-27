@@ -22,3 +22,14 @@ jobs:
       - run: bundle exec rails db:create --trace
       - run: bundle exec rake
 
+  rubocop:
+    docker:
+      - image: circleci/ruby:2.5
+    environment:
+      RAILS_ENV: test
+      RACK_ENV: test
+    steps:
+      - checkout
+      - run: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - run: bundle exec rubocop
+
